@@ -1,0 +1,15 @@
+﻿<Window x:Class="Yahtzee.Views.RulesPopUp"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Yahtzee.Views"
+        mc:Ignorable="d"
+        Title="RULES" Height="300" Width="350">
+    <Grid Background="Black">
+        <StackPanel>
+            <Label Content="RULES" HorizontalContentAlignment="Center" Foreground="White" FontSize="30" FontFamily="stencil"/>
+            <TextBox BorderThickness="0" Width="230" Background="Black" HorizontalContentAlignment="Center" Foreground="White" TextWrapping="Wrap" Text="Yatzy is a dice game played with three attempts to roll and the option to save dice between rolls. Players can save dice in the categories of ones, twos, threes, fours, fives, and sixes (for a subtotal score). If the subtotal score in these categories exceeds 62 points, players receive a bonus of 50 points. Additionally, players can save dice for pairs, two pairs, a full house, three of a kind, four of a kind, Yatzy, chance, a small straight, and a large straight. Strategic decisions and a bit of luck contribute to achieving the highest possible score."/>
+        </StackPanel>
+    </Grid>
+</Window>

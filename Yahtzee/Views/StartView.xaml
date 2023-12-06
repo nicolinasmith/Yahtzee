@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:Yahtzee.ViewModels"
              xmlns:local="clr-namespace:Yahtzee.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="800" d:DesignWidth="1200">
     <Grid Background="#FFFFD348">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
@@ -13,12 +14,38 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
-        <Label Content="YAHTZEE" FontFamily="Stencil" FontSize="80" HorizontalContentAlignment="Center" Grid.Row="0"/>
-        <Border BorderBrush="Black" BorderThickness="6" Width="290" Background="Black" Grid.Row="1" Padding="5">
+        <Label Content="YAHTZEE" FontFamily="Stencil" FontSize="80" HorizontalContentAlignment="Center" Margin="0 40 0 0" Grid.Row="0"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Border Background="Black" BorderThickness="3" Width="320" Height="350" BorderBrush="Black" Margin="0 0 20 0" Padding="5">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Label Content="NEW GAME" HorizontalContentAlignment="Center" Foreground="White" FontSize="30" FontFamily="Stencil"/>
+                    <RadioButton x:Name="btnOnePlayer" Content="1 player" Foreground="White" Margin="0 10 0 0" />
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Label Content="Name:" Foreground="White" VerticalAlignment="Bottom"/>
+                        <TextBox Width="80" Height="22" Margin="10 10 0 0" Text="{Binding PlayerOne, Source={x:Static vm:MainViewModel.Instance}}"/>
+                    </StackPanel>
+                    <RadioButton x:Name="btnTwoPlayers" Content="2 players" Margin="0 20 0 0" Foreground="White" IsChecked="False"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Name:" Foreground="White" VerticalAlignment="Bottom"/>
+                        <TextBox Width="80" Height="22" Margin="10 10 0 0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Name:" Foreground="White" VerticalAlignment="Bottom"/>
+                        <TextBox Width="80" Height="22" Margin="10 10 0 0"/>
+                    </StackPanel>
+                    <Button Content="Start game" Height="22" Width="80" Margin="0 30 0 0" 
+                            Background="#FFFF8000" FontWeight="Bold"
+                            Command="{Binding StartGameCommand, Source={x:Static vm:MainViewModel.Instance}}"/>
+                </StackPanel>
+            </Border>
+        
+        <Border BorderBrush="Black" BorderThickness="3" Width="290" Height="350" Background="Black" Padding="5" Margin="20 0 0 0">
             <StackPanel>
-                <Label Content="RULES" HorizontalContentAlignment="Center" Foreground="#FFFFD348" FontSize="30" FontFamily="stencil"/>
-                <TextBox BorderThickness="0" Width="230" TextWrapping="Wrap" Text="Yatzy is a dice game played with three attempts to roll and the option to save dice between rolls. Players can save dice in the categories of ones, twos, threes, fours, fives, and sixes (for a subtotal score). If the subtotal score in these categories exceeds 62 points, players receive a bonus of 50 points. Additionally, players can save dice for pairs, two pairs, a full house, three of a kind, four of a kind, Yatzy, chance, a small straight, and a large straight. Strategic decisions and a bit of luck contribute to achieving the highest possible score."/>
+                <Label Content="RULES" HorizontalContentAlignment="Center" Foreground="White" FontSize="30" FontFamily="stencil"/>
+                <TextBox BorderThickness="0" Width="230" Background="Black" HorizontalContentAlignment="Center" Foreground="White" TextWrapping="Wrap" Text="Yatzy is a dice game played with three attempts to roll and the option to save dice between rolls. Players can save dice in the categories of ones, twos, threes, fours, fives, and sixes (for a subtotal score). If the subtotal score in these categories exceeds 62 points, players receive a bonus of 50 points. Additionally, players can save dice for pairs, two pairs, a full house, three of a kind, four of a kind, Yatzy, chance, a small straight, and a large straight. Strategic decisions and a bit of luck contribute to achieving the highest possible score."/>
             </StackPanel>
         </Border>
+        </StackPanel>
     </Grid>
 </UserControl>

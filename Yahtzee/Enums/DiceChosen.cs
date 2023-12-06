@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Yahtzee.ViewModels
+namespace Yahtzee.Enums
 {
-    public class StartViewModel : BaseViewModel
+    public enum DiceChosen
     {
-        public StartViewModel() 
-        {
-        }
+        True, False
     }
 }
