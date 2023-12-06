@@ -7,12 +7,18 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="#FFFFD348">
-        <Label Content="YAHTZEE" FontFamily="Stencil" FontSize="80" HorizontalContentAlignment="Center"/>
-        <Border BorderBrush="Black" BorderThickness="4" Width="290" Background="AntiqueWhite">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Label Content="YAHTZEE" FontFamily="Stencil" FontSize="80" HorizontalContentAlignment="Center" Grid.Row="0"/>
+        <Border BorderBrush="Black" BorderThickness="6" Width="290" Background="Black" Grid.Row="1" Padding="5">
             <StackPanel>
-                <Label Content="RULES" HorizontalContentAlignment="Center" Background="#FFFFD348" FontSize="30" FontFamily="stencil"/>
-            <TextBox Background="#FFFFD348" BorderThickness="0" TextWrapping="Wrap" Text="Yatzy is a dice game played with three attempts to roll and the option to save dice between rolls. Players can save dice in the categories of ones, twos, threes, fours, fives, and sixes (for a subtotal score). If the subtotal score in these categories exceeds 62 points, players receive a bonus of 50 points. Additionally, players can save dice for pairs, two pairs, a full house, three of a kind, four of a kind, Yatzy, chance, a small straight, and a large straight. Strategic decisions and a bit of luck contribute to achieving the highest possible score."/>
-        </StackPanel>
+                <Label Content="RULES" HorizontalContentAlignment="Center" Foreground="#FFFFD348" FontSize="30" FontFamily="stencil"/>
+                <TextBox BorderThickness="0" Width="230" TextWrapping="Wrap" Text="Yatzy is a dice game played with three attempts to roll and the option to save dice between rolls. Players can save dice in the categories of ones, twos, threes, fours, fives, and sixes (for a subtotal score). If the subtotal score in these categories exceeds 62 points, players receive a bonus of 50 points. Additionally, players can save dice for pairs, two pairs, a full house, three of a kind, four of a kind, Yatzy, chance, a small straight, and a large straight. Strategic decisions and a bit of luck contribute to achieving the highest possible score."/>
+            </StackPanel>
         </Border>
     </Grid>
 </UserControl>
