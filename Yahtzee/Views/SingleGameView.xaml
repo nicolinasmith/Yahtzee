@@ -39,7 +39,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
+            
         <!--<StackPanel Orientation="Vertical" Grid.Row="1">
             <Label x:Name="rollDiceReminder" Content="Time to roll the dices!" HorizontalAlignment="Center" FontWeight="Bold"/>
             <Button x:Name="rollDiceButton" Content="Roll dices" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="120" Click="RollDice_Click" Height="33" Background="White" BorderThickness="2" BorderBrush="Black" Margin="10"/>
