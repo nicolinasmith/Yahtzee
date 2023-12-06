@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace Yahtzee.ViewModels
 {
-    public class StartViewModel : BaseViewModel
+    class SingleGameViewModel : BaseViewModel
     {
-        public StartViewModel() 
-        {
-        }
     }
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using Yahtzee.Commands;
 
 namespace Yahtzee.ViewModels
 {
@@ -14,6 +17,27 @@ namespace Yahtzee.ViewModels
 
         public static MainViewModel Instance { get => _instance ?? (_instance = new MainViewModel()); }
 
-        public MainViewModel() { }
+
+        public ICommand StartGameCommand { get; set; }
+
+        public string? SinglePlayer { get; set; }
+
+        public string? PlayerOne { get; set; }
+
+        public string? PlayerTwo { get; set; }
+
+
+        public MainViewModel()
+        {
+            StartGameCommand = new RelayCommand(x => StartGame());
+        }
+
+        private void StartGame()
+        {
+            //MessageBox.Show($"hej {SinglePlayer}");
+
+            MainViewModel.Instance.CurrentViewModel = new SingleGameViewModel();
+
+        }
     }
 }
