@@ -22,8 +22,9 @@
            
         <Label Content="YAHTZEE" FontFamily="Stencil" FontSize="80" 
                HorizontalContentAlignment="Center" Margin="0 40 0 0" Grid.Row="0" />
-
-        <ListBox ItemsSource="{Binding Dices}" Height="90" Width="480" BorderThickness="0" Padding="0" Background="#FFFFD348" Grid.Row="1">
+        <Button Command="{Binding RollDiceCommand}" Content="Roll dices" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="120" Height="33" Background="White" BorderThickness="2" BorderBrush="Black" IsEnabled="{Binding CanRollDice}"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
+            <ListBox ItemsSource="{Binding Dices}" Height="90" Width="480" BorderThickness="0" Padding="0" Background="#FFFFD348" Margin="0 0 20 0">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"/>
@@ -39,30 +40,105 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-            
-        <!--<StackPanel Orientation="Vertical" Grid.Row="1">
-            <Label x:Name="rollDiceReminder" Content="Time to roll the dices!" HorizontalAlignment="Center" FontWeight="Bold"/>
-            <Button x:Name="rollDiceButton" Content="Roll dices" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="120" Click="RollDice_Click" Height="33" Background="White" BorderThickness="2" BorderBrush="Black" Margin="10"/>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Label Content="Number of rolls:"/>
-                <Label x:Name="rollCounter" Content="0 of 3"/>
+
+        <Border Background="Black" BorderBrush="Black" BorderThickness="1" Width="250" Height="620" CornerRadius="5" Margin="75 0 0 0">
+            <StackPanel x:Name="formContainer" Orientation="Vertical">
+                <Label Content="Scoresheet" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="16" Foreground="White"/>
+                <Label Content="{Binding PlayerName}" FontSize="12" HorizontalContentAlignment="Center" Foreground="White"/>
+                <Separator Background="White"/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Ones" Width="100" Margin="25 0 0 0" Foreground="White"/>
+                    <Button Width="50" Height="20" Content="{Binding ScoreSheet.Ones}" Background="White" Command="{Binding OnesCommand}"/>
+                </StackPanel>
+                    <Separator/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Twos" Width="100" Margin="25 0 0 0" Foreground="White"/>
+                    <Button Width="50" Height="20" Content="{Binding ScoreSheet.Twos}" Background="White" Command="{Binding TwosCommand}"/>
+                </StackPanel>
+                <Separator/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Threes" Width="100" Margin="25 0 0 0" Foreground="White"/>
+                    <Button Content="{Binding ScoreSheet.Threes}" Width="50" Height="20" Background="White" Command="{Binding ThreesCommand}"/>
+                </StackPanel>
+                <Separator/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Fours" Width="100" Margin="25 0 0 0" Foreground="White"/>
+                        <Button Content="{Binding ScoreSheet.Fours}" Width="50" Height="20" Background="White" Command="{Binding FoursCommand}"/>
+                </StackPanel>
+                <Separator/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Fives" Width="100" Margin="25 0 0 0" Foreground="White"/>
+                        <Button Content="{Binding ScoreSheet.Fives}" Width="50" Height="20" Background="White" Command="{Binding FivesCommand}"/>
+                </StackPanel>
+                <Separator/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Sixes" Width="100" Margin="25 0 0 0" Foreground="White"/>
+                        <Button Content="{Binding ScoreSheet.Sixes}" Width="50" Height="20" Background="White" Command="{Binding SixesCommand}"/>
+                </StackPanel>
+                <Separator/>
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Subscore:" FontWeight="Bold" Margin="25 0 0 0" Width="100" Foreground="White"/>
+                        <Button Content="{Binding ScoreSheet.Subscore}" Width="50" Height="20" Background="White" IsEnabled="False"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Bonus:" Margin="25 0 0 0" Width="100" Foreground="White"/>
+                        <Button Content="{Binding ScoreSheet.Bonus}" Width="50" Height="20" Background="White" IsEnabled="False"/>
+                    </StackPanel>
+                </StackPanel>
+                <Separator/>
+                <!--
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="One pair" Width="100" Margin="25 0 0 0" Foreground="White"/>
+                    <Button Content="{Binding OnePair}" Width="50" Height="20" Background="White" Click="OnePair_Click"/>
+                </StackPanel>
+                <Separator/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Two pair" Width="100" Margin="25 0 0 0" Foreground="White"/>
+                    <Button Content="{Binding TwoPairs}" Width="50" Height="20" Background="White" Click="TwoPair_Click"/>
+                </StackPanel>
+                <Separator/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Three of a kind" Width="100" Margin="25 0 0 0" Foreground="White"/>
+                    <Button Content="{Binding ThreeOfAKind}" Width="50" Height="20" Background="White" Click="ThreeOfAKind_Click"/>
+                </StackPanel>
+                <Separator/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Four of a kind" Width="100" Margin="25 0 0 0" Foreground="White"/>
+                    <Button Content="{Binding FourOfAKind}" Width="50" Height="20" Background="White" Click="FourOfAKind_Click"/>
+                </StackPanel>
+                <Separator/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Full house" Width="100" Margin="25 0 0 0" Foreground="White"/>
+                    <Button Content="{Binding FullHouse}" Width="50" Height="20" Background="White" Click="FullHouse_Click"/>
+                </StackPanel>
+                <Separator/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Small straight" Width="100" Margin="25 0 0 0" Foreground="White"/>
+                    <Button Content="{Binding SmallStraight}" Width="50" Height="20" Background="White" Click="SmallStraight_Click"/>
+                </StackPanel>
+                <Separator/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Large straight" Width="100" Margin="25 0 0 0" Foreground="White"/>
+                    <Button Content="{Binding LargeStraight}" Width="50" Height="20" Background="White" Click="LargeStraight_Click"/>
+                </StackPanel>
+                <Separator/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Yatzy" Width="100" Margin="25 0 0 0" Foreground="White"/>
+                    <Button Content="{Binding Yatzy}" Width="50" Height="20" Background="White" Click="Yatzy_Click"/>
+                </StackPanel>
+                <Separator/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Chance" Width="100" Margin="25 0 0 0" Foreground="White"/>
+                    <Button Content="{Binding Chance}" Width="50" Height="20" Background="White" Click="Chance_Click"/>
+                </StackPanel>
+                <Separator/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Total score:" FontWeight="Bold" Margin="25 0 0 0" Width="100" Foreground="White"/>
+                    <Button Content="{Binding TotalScore}" Width="50" Height="20" Background="White" IsEnabled="False"/>
+                </StackPanel>-->
             </StackPanel>
-            <ListBox x:Name="diceContainer" Height="90" Width="480" BorderThickness="0" Padding="0" Background="#FFEDC442">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Rectangle Width="70" Height="70" MouseLeftButtonDown="DiceIsChosen_Click" 
-                            Tag="{Binding Index}" Margin="5"
-                            Fill="{Binding DiceStatus, Converter={StaticResource DiceConverter}}"
-                            Stroke="{Binding DiceChosen, Converter={StaticResource ChosenConverter}}" 
-                            StrokeThickness="3"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </StackPanel>-->
+            </Border>
+        </StackPanel>
     </Grid>
 </UserControl>
