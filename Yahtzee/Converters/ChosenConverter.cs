@@ -18,7 +18,7 @@ namespace Yahtzee.Converters
             switch (isChosen)
             {
                 case DiceChosen.True:
-                    return "Green";
+                    return "OrangeRed";
                 case DiceChosen.False:
                     return "Black";
                 default:

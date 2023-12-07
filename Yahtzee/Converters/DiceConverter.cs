@@ -8,6 +8,8 @@ using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using Yahtzee.Enums;
+using System.Diagnostics;
+using System.Windows;
 
 namespace Yahtzee.Converters
 {
@@ -25,7 +27,7 @@ namespace Yahtzee.Converters
                     if (!diceBrushCache.ContainsKey(diceStatus))
                     {
                         var imageBrush = new ImageBrush();
-                        var imageUri = new Uri("pack://application:,,,/Yatzy;component/Images/DiceZero.jpg");
+                        var imageUri = new Uri("pack://application:,,,/Yahtzee;component/Images/DiceZero.jpg");
                         imageBrush.ImageSource = new BitmapImage(imageUri);
                         diceBrushCache[diceStatus] = imageBrush;
                     }
@@ -34,7 +36,7 @@ namespace Yahtzee.Converters
                     if (!diceBrushCache.ContainsKey(diceStatus))
                     {
                         var imageBrush = new ImageBrush();
-                        var imageUri = new Uri("pack://application:,,,/Yatzy;component/Images/DiceOne.jpg");
+                        var imageUri = new Uri("pack://application:,,,/Yahtzee;component/Images/DiceOne.jpg");
                         imageBrush.ImageSource = new BitmapImage(imageUri);
                         diceBrushCache[diceStatus] = imageBrush;
                     }
@@ -43,7 +45,7 @@ namespace Yahtzee.Converters
                     if (!diceBrushCache.ContainsKey(diceStatus))
                     {
                         var imageBrush = new ImageBrush();
-                        var imageUri = new Uri("pack://application:,,,/Yatzy;component/Images/DiceTwo.jpg");
+                        var imageUri = new Uri("pack://application:,,,/Yahtzee;component/Images/DiceTwo.jpg");
                         imageBrush.ImageSource = new BitmapImage(imageUri);
                         diceBrushCache[diceStatus] = imageBrush;
                     }
@@ -52,7 +54,7 @@ namespace Yahtzee.Converters
                     if (!diceBrushCache.ContainsKey(diceStatus))
                     {
                         var imageBrush = new ImageBrush();
-                        var imageUri = new Uri("pack://application:,,,/Yatzy;component/Images/DiceThree.jpg");
+                        var imageUri = new Uri("pack://application:,,,/Yahtzee;component/Images/DiceThree.jpg");
                         imageBrush.ImageSource = new BitmapImage(imageUri);
                         diceBrushCache[diceStatus] = imageBrush;
                     }
@@ -61,7 +63,7 @@ namespace Yahtzee.Converters
                     if (!diceBrushCache.ContainsKey(diceStatus))
                     {
                         var imageBrush = new ImageBrush();
-                        var imageUri = new Uri("pack://application:,,,/Yatzy;component/Images/DiceFour.jpg");
+                        var imageUri = new Uri("pack://application:,,,/Yahtzee;component/Images/DiceFour.jpg");
                         imageBrush.ImageSource = new BitmapImage(imageUri);
                         diceBrushCache[diceStatus] = imageBrush;
                     }
@@ -70,7 +72,7 @@ namespace Yahtzee.Converters
                     if (!diceBrushCache.ContainsKey(diceStatus))
                     {
                         var imageBrush = new ImageBrush();
-                        var imageUri = new Uri("pack://application:,,,/Yatzy;component/Images/DiceFive.jpg");
+                        var imageUri = new Uri("pack://application:,,,/Yahtzee;component/Images/DiceFive.jpg");
                         imageBrush.ImageSource = new BitmapImage(imageUri);
                         diceBrushCache[diceStatus] = imageBrush;
                     }
@@ -79,7 +81,7 @@ namespace Yahtzee.Converters
                     if (!diceBrushCache.ContainsKey(diceStatus))
                     {
                         var imageBrush = new ImageBrush();
-                        var imageUri = new Uri("pack://application:,,,/Yatzy;component/Images/DiceSix.jpg");
+                        var imageUri = new Uri("pack://application:,,,/Yahtzee;component/Images/DiceSix.jpg");
                         imageBrush.ImageSource = new BitmapImage(imageUri);
                         diceBrushCache[diceStatus] = imageBrush;
                     }

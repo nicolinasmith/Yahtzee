@@ -25,10 +25,5 @@ namespace Yahtzee.Views
             InitializeComponent();
 
         }
-
-        private void DiceIsChosen_Click (object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
