@@ -10,8 +10,6 @@ namespace Yahtzee.Models
 {
     public class ScoreSheet : INotifyPropertyChanged
     {
-        public string? PlayerName { get; set; }
-
         public string? Ones { get; set; }
 
         public string? Twos { get; set; }

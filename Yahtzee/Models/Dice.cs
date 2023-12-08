@@ -25,7 +25,7 @@ namespace Yahtzee.Models
             DependencyProperty.Register("DiceChosen", typeof(DiceChosen), typeof(Dice), new PropertyMetadata(DiceChosen.False));
 
 
-        public DiceStatus DiceStatus
+        public DiceStatus DiceStatus 
         {
             get { return (DiceStatus)GetValue(DiceStatusProperty); }
             set { SetValue(DiceStatusProperty, value); }

@@ -11,14 +11,11 @@ namespace Yahtzee.ViewModels
 {
     public class StartViewModel : BaseViewModel
     {
-        public StartViewModel() 
-        {
-            StartGameCommand = new RelayCommand(x => StartGame());
-        }
-
         public ICommand StartGameCommand { get; set; }
 
         public ICommand ReadRulesCommand { get; set; }
+
+        public string? SinglePlayer {  get; set; }
 
         public string? PlayerOne { get; set; }
 
@@ -26,15 +23,21 @@ namespace Yahtzee.ViewModels
 
         public bool SinglePlayerChecked { get; set; } = true;
 
+        public StartViewModel() 
+        {
+            StartGameCommand = new RelayCommand(x => StartGame());
+        }
+
+
         private void StartGame()
         {
             if (SinglePlayerChecked)
             {
-                MainViewModel.Instance.CurrentViewModel = new SingleGameViewModel(PlayerOne);
+                MainViewModel.Instance.CurrentViewModel = new SingleGameViewModel(SinglePlayer);
             }
             else
             {
-                MainViewModel.Instance.CurrentViewModel = new MultipleGameViewModel();
+                MainViewModel.Instance.CurrentViewModel = new MultipleGameViewModel(PlayerOne, PlayerTwo);
             }
 
         }

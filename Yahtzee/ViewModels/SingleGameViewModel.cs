@@ -140,7 +140,6 @@ namespace Yahtzee.ViewModels
             SaveDiceCommand = new RelayCommand(HandlesChosenDice);
             ToStartCommand = new RelayCommand(x => ReturnToStartPage());
             ReadRulesCommand = new RelayCommand(x => OpenRulesPopUp());
-
         }
 
         private void ReturnToStartPage()
@@ -217,7 +216,6 @@ namespace Yahtzee.ViewModels
                 Dices[diceIndex].IsChosen = DiceChosen.True;
             }
         }
-
 
         private void EnableRollDice()
         {
