@@ -14,7 +14,6 @@ namespace Yahtzee.ViewModels
         public StartViewModel() 
         {
             StartGameCommand = new RelayCommand(x => StartGame());
-            ReadRulesCommand = new RelayCommand(x => OpenRulesPopUp());
         }
 
         public ICommand StartGameCommand { get; set; }
@@ -26,13 +25,6 @@ namespace Yahtzee.ViewModels
         public string? PlayerTwo { get; set; }
 
         public bool SinglePlayerChecked { get; set; } = true;
-
-
-        private void OpenRulesPopUp()
-        {
-            RulesPopUp popupWindow = new RulesPopUp();
-            popupWindow.Show();
-        }
 
         private void StartGame()
         {

@@ -32,7 +32,7 @@ namespace Yahtzee.Models
         }
 
         public static readonly DependencyProperty DiceStatusProperty =
-            DependencyProperty.Register("DiceStatus", typeof(DiceStatus), typeof(Dice), new PropertyMetadata(DiceStatus.Three));
+            DependencyProperty.Register("DiceStatus", typeof(DiceStatus), typeof(Dice), new PropertyMetadata(DiceStatus.Zero));
 
 
         public event PropertyChangedEventHandler? PropertyChanged;

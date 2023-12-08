@@ -14,6 +14,7 @@ using Yahtzee.Models;
 using Yahtzee.Views;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Reflection;
+using System.Media;
 
 namespace Yahtzee.ViewModels
 {
@@ -29,16 +30,50 @@ namespace Yahtzee.ViewModels
         int subscoreClick = 0;
         int totalScoreClick = 0;
 
-        public bool CanRollDice { get; set; } = true;
-
         public string PlayerName { get; set; }
 
         public string GuideText { get; set; }
 
         public string NumberOfTries { get; set; }
 
+        #region Bools
+        public bool CanRollDice { get; set; } = true;
+
+        public bool OnesButtonEnabled { get; set; } = true;
+
+        public bool TwosButtonEnabled { get; set; } = true;
+
+        public bool ThreesButtonEnabled { get; set; } = true;
+
+        public bool FoursButtonEnabled { get; set; } = true;
+
+        public bool FivesButtonEnabled { get; set; } = true;
+
+        public bool SixesButtonEnabled { get; set; } = true;
+
+        public bool OnePairButtonEnabled { get; set; } = true;
+
+        public bool TwoPairButtonEnabled { get; set; } = true;
+
+        public bool ThreeOfAKindButtonEnabled { get; set; } = true;
+
+        public bool FourOfAKindButtonEnabled { get; set; } = true;
+
+        public bool FullHouseButtonEnabled { get; set; } = true;
+
+        public bool SmallStraightButtonEnabled { get; set; } = true;
+
+        public bool LargeStraightButtonEnabled { get; set; } = true;
+
+        public bool YatzyButtonEnabled { get; set; } = true;
+
+        public bool ChanceButtonEnabled { get; set; } = true;
+        #endregion
+
         #region ICommands
         public ICommand ToStartCommand { get; set; }
+
+        public ICommand ReadRulesCommand { get; set; }
 
         public ICommand RollDiceCommand { get; set; }
 
@@ -84,7 +119,7 @@ namespace Yahtzee.ViewModels
 
             GuideText = $"Time to roll the dices, {PlayerName}!";
             NumberOfTries = "0 of 3";
-            RollDiceCommand = new RelayCommand(x => SetDiceValue());
+            RollDiceCommand = new RelayCommand(x => RollTheDices());
 
             OnesCommand = new RelayCommand(x => CalculateOnesUpToSixes(1, "Ones"));
             TwosCommand = new RelayCommand(x => CalculateOnesUpToSixes(2, "Twos"));
@@ -104,12 +139,19 @@ namespace Yahtzee.ViewModels
 
             SaveDiceCommand = new RelayCommand(HandlesChosenDice);
             ToStartCommand = new RelayCommand(x => ReturnToStartPage());
+            ReadRulesCommand = new RelayCommand(x => OpenRulesPopUp());
 
         }
 
         private void ReturnToStartPage()
         {
             MainViewModel.Instance.CurrentViewModel = new StartViewModel();
+        }
+
+        private void OpenRulesPopUp()
+        {
+            RulesPopUp popupWindow = new RulesPopUp();
+            popupWindow.Show();
         }
 
         private void GetDices()
@@ -124,16 +166,22 @@ namespace Yahtzee.ViewModels
             }
         }
 
-        private void SetDiceValue()
+        private async void RollTheDices()
         {
+            var soundPlayer = new SoundPlayer(Properties.Resources.RollDice);
+            soundPlayer.Play();
             rollDiceCount++;
 
-            foreach (var dice in Dices)
+            for (int i = 0; i < 5; i++)
             {
-                if (dice.IsChosen == DiceChosen.False)
+                foreach (var dice in Dices)
                 {
-                    dice.Value = random.Next(1, 7);
-                    dice.DiceStatus = (DiceStatus)dice.Value;
+                    if (dice.IsChosen == DiceChosen.False)
+                    {
+                        await Task.Delay(80);
+                        dice.Value = random.Next(1, 7);
+                        dice.DiceStatus = (DiceStatus)dice.Value;
+                    }
                 }
             }
 
@@ -170,6 +218,20 @@ namespace Yahtzee.ViewModels
             }
         }
 
+
+        private void EnableRollDice()
+        {
+            CanRollDice = true;
+            rollDiceCount = 0;
+
+            foreach(var dice in Dices)
+            {
+                GuideText = $"Time to roll the dices again, {PlayerName}!";
+                NumberOfTries = "0 / 3";
+                dice.IsChosen = DiceChosen.False;
+            }
+        }
+
         private void CalculateOnesUpToSixes(int number, string stringNum)
         {
             int points = 0;
@@ -191,6 +253,7 @@ namespace Yahtzee.ViewModels
                     subscoreClick++;
                     EnableRollDice();
                     typeof(ScoreSheet).GetProperty(stringNum)?.SetValue(ScoreSheet, points.ToString());
+                    GetType().GetProperty(stringNum + "ButtonEnabled")?.SetValue(this, false);
 
                     if (subscoreClick == 6)
                     {
@@ -254,6 +317,7 @@ namespace Yahtzee.ViewModels
                     case MessageBoxResult.Yes:
                         ScoreSheet.OnePair = highestSum.ToString();
                         totalScoreClick++;
+                        OnePairButtonEnabled = false;
                         CalculateTotalScore();
                         break;
                     case MessageBoxResult.No: return;
@@ -269,6 +333,7 @@ namespace Yahtzee.ViewModels
                     case MessageBoxResult.Yes:
                         ScoreSheet.OnePair = sumPair.ToString();
                         totalScoreClick++;
+                        OnePairButtonEnabled = false;
                         CalculateTotalScore();
                         break;
                     case MessageBoxResult.No: return;
@@ -283,6 +348,7 @@ namespace Yahtzee.ViewModels
                     case MessageBoxResult.Yes:
                         ScoreSheet.OnePair = 0.ToString();
                         totalScoreClick++;
+                        OnePairButtonEnabled = false;
                         CalculateTotalScore();
                         break;
                     case MessageBoxResult.No: return;
@@ -326,6 +392,7 @@ namespace Yahtzee.ViewModels
                     case MessageBoxResult.Yes:
                         ScoreSheet.TwoPairs = totalSum.ToString();
                         totalScoreClick++;
+                        TwoPairButtonEnabled = false;
                         CalculateTotalScore();
                         break;
                     case MessageBoxResult.No: return;
@@ -340,6 +407,7 @@ namespace Yahtzee.ViewModels
                     case MessageBoxResult.Yes:
                         ScoreSheet.TwoPairs = 0.ToString();
                         totalScoreClick++;
+                        TwoPairButtonEnabled = false;
                         CalculateTotalScore();
                         break;
                     case MessageBoxResult.No: return;
@@ -378,6 +446,7 @@ namespace Yahtzee.ViewModels
                     case MessageBoxResult.Yes:
                         ScoreSheet.ThreeOfAKind = points.ToString();
                         totalScoreClick++;
+                        ThreeOfAKindButtonEnabled = false;
                         CalculateTotalScore();
                         break;
                     case MessageBoxResult.No: return;
@@ -393,6 +462,7 @@ namespace Yahtzee.ViewModels
                     case MessageBoxResult.Yes:
                         ScoreSheet.ThreeOfAKind = 0.ToString();
                         totalScoreClick++;
+                        ThreeOfAKindButtonEnabled = false;
                         CalculateTotalScore();
                         break;
                     case MessageBoxResult.No: return;
@@ -434,6 +504,7 @@ namespace Yahtzee.ViewModels
                     case MessageBoxResult.Yes:
                         ScoreSheet.FourOfAKind = points.ToString();
                         totalScoreClick++;
+                        FourOfAKindButtonEnabled = false;
                         CalculateTotalScore();
                         break;
                     case MessageBoxResult.No: return;
@@ -448,6 +519,7 @@ namespace Yahtzee.ViewModels
                     case MessageBoxResult.Yes:
                         ScoreSheet.FourOfAKind = 0.ToString();
                         totalScoreClick++;
+                        FourOfAKindButtonEnabled = false;
                         CalculateTotalScore();
                         break;
                     case MessageBoxResult.No: return;
@@ -485,6 +557,7 @@ namespace Yahtzee.ViewModels
                     case MessageBoxResult.Yes:
                         ScoreSheet.FullHouse = totalSum.ToString();
                         totalScoreClick++;
+                        FullHouseButtonEnabled = false;
                         CalculateTotalScore();
                         break;
                     case MessageBoxResult.No: return;
@@ -499,6 +572,7 @@ namespace Yahtzee.ViewModels
                     case MessageBoxResult.Yes:
                         ScoreSheet.FullHouse = 0.ToString();
                         totalScoreClick++;
+                        FullHouseButtonEnabled = false;
                         CalculateTotalScore();
                         break;
                     case MessageBoxResult.No: return;
@@ -527,6 +601,7 @@ namespace Yahtzee.ViewModels
                     case MessageBoxResult.Yes:
                         ScoreSheet.SmallStraight = 15.ToString();
                         totalScoreClick++;
+                        SmallStraightButtonEnabled = false;
                         CalculateTotalScore();
                         break;
                     case MessageBoxResult.No: return;
@@ -541,6 +616,7 @@ namespace Yahtzee.ViewModels
                     case MessageBoxResult.Yes:
                         ScoreSheet.SmallStraight = 0.ToString();
                         totalScoreClick++;
+                        SmallStraightButtonEnabled = false;
                         CalculateTotalScore();
                         break;
                     case MessageBoxResult.No: return;
@@ -569,6 +645,7 @@ namespace Yahtzee.ViewModels
                     case MessageBoxResult.Yes:
                         ScoreSheet.LargeStraight = 20.ToString();
                         totalScoreClick++;
+                        LargeStraightButtonEnabled = false;
                         CalculateTotalScore();
                         break;
                     case MessageBoxResult.No: return;
@@ -583,6 +660,7 @@ namespace Yahtzee.ViewModels
                     case MessageBoxResult.Yes:
                         ScoreSheet.LargeStraight = 0.ToString();
                         totalScoreClick++;
+                        LargeStraightButtonEnabled = false;
                         CalculateTotalScore();
                         break;
                     case MessageBoxResult.No: return;
@@ -613,6 +691,7 @@ namespace Yahtzee.ViewModels
                     case MessageBoxResult.Yes:
                         ScoreSheet.Yatzy = 50.ToString();
                         totalScoreClick++;
+                        YatzyButtonEnabled = false;
                         CalculateTotalScore();
                         break;
                     case MessageBoxResult.No: return;
@@ -627,6 +706,7 @@ namespace Yahtzee.ViewModels
                     case MessageBoxResult.Yes:
                         ScoreSheet.Yatzy = 0.ToString();
                         totalScoreClick++;
+                        YatzyButtonEnabled = false;
                         CalculateTotalScore();
                         break;
                     case MessageBoxResult.No: return;
@@ -650,6 +730,7 @@ namespace Yahtzee.ViewModels
                 case MessageBoxResult.Yes:
                     ScoreSheet.Chance = points.ToString();
                     totalScoreClick++;
+                    ChanceButtonEnabled = false;
                     CalculateTotalScore();
                     break;
                 case MessageBoxResult.No: return;
@@ -671,18 +752,6 @@ namespace Yahtzee.ViewModels
             }
         }
 
-        private void EnableRollDice()
-        {
-            CanRollDice = true;
-            rollDiceCount = 0;
-
-            foreach(var dice in Dices)
-            {
-                GuideText = $"Time to roll the dices again, {PlayerName}!";
-                NumberOfTries = "0 / 3";
-                dice.IsChosen = DiceChosen.False;
-            }
-        }
 
     }
 }

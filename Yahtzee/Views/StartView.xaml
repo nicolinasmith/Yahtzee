@@ -25,7 +25,7 @@
                         <Label Content="Name:" Foreground="White" VerticalAlignment="Bottom"/>
                         <TextBox Width="80" Height="22" Margin="10 10 0 0" Text="{Binding PlayerOne}"/>
                     </StackPanel>
-                    <RadioButton x:Name="btnTwoPlayers" Content="2 players" Margin="0 20 0 0" Foreground="White" IsChecked="False"/>
+                    <RadioButton x:Name="btnTwoPlayers" Content="2 players" Margin="0 30 0 0" Foreground="White" IsChecked="False"/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Name:" Foreground="White" VerticalAlignment="Bottom"/>
                         <TextBox Width="80" Height="22" Margin="10 10 0 0"/>
@@ -34,7 +34,7 @@
                         <Label Content="Name:" Foreground="White" VerticalAlignment="Bottom"/>
                         <TextBox Width="80" Height="22" Margin="10 10 0 0"/>
                     </StackPanel>
-                    <Button Content="Start game" Height="22" Width="80" Margin="0 30 0 0" 
+                    <Button Content="Start game" Height="25" Width="85" Margin="0 35 0 0" 
                             Background="#FFFF8000" FontWeight="Bold"
                             Command="{Binding StartGameCommand}"/>
                 </StackPanel>
