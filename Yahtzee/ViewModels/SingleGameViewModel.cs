@@ -674,6 +674,7 @@ namespace Yahtzee.ViewModels
         private void EnableRollDice()
         {
             CanRollDice = true;
+            rollDiceCount = 0;
 
             foreach(var dice in Dices)
             {
