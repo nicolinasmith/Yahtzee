@@ -60,9 +60,9 @@
             </StackPanel>
 
 
-            <Border Background="Black" BorderBrush="Black" BorderThickness="1" Width="250" CornerRadius="5" Margin="180 0 0 0" Grid.RowSpan="2" IsEnabled="{Binding PlayerOnesTurn}">
+            <Border Background="Black" BorderBrush="{Binding P1Brush}" BorderThickness="4" Width="250" CornerRadius="5" Margin="180 0 0 0" Grid.RowSpan="2">
                 <StackPanel Orientation="Vertical">
-                    <Label Content="Scoresheet" FontWeight="Bold" HorizontalContentAlignment="Center" 
+                    <Label Content="Player 1 Scoresheet" FontWeight="Bold" HorizontalContentAlignment="Center" 
                        FontSize="16" Foreground="White"/>
                     <Label Content="{Binding P1Name}" FontSize="12" HorizontalContentAlignment="Center" 
                        Foreground="White"/>
@@ -70,37 +70,37 @@
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Ones" Width="100" Margin="25 0 0 0" Foreground="White"/>
                         <Button Width="50" Height="20" Content="{Binding P1ScoreSheet.Ones}" IsEnabled="{Binding P1OnesButtonEnabled}"
-                            Background="White" Command="{Binding OnesCommand}"/>
+                            Background="White" Command="{Binding OnesCommand}" CommandParameter="P1"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Twos" Width="100" Margin="25 0 0 0" Foreground="White"/>
                         <Button Width="50" Height="20" Content="{Binding P1ScoreSheet.Twos}" IsEnabled="{Binding P1TwosButtonEnabled}"
-                            Background="White" Command="{Binding TwosCommand}"/>
+                            Background="White" Command="{Binding TwosCommand}" CommandParameter="P1"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Threes" Width="100" Margin="25 0 0 0" Foreground="White"/>
                         <Button Content="{Binding P1ScoreSheet.Threes}" Width="50" Height="20" IsEnabled="{Binding P1ThreesButtonEnabled}"
-                            Background="White" Command="{Binding ThreesCommand}"/>
+                            Background="White" Command="{Binding ThreesCommand}" CommandParameter="P1"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Fours" Width="100" Margin="25 0 0 0" Foreground="White"/>
                         <Button Content="{Binding P1ScoreSheet.Fours}" Width="50" Height="20" IsEnabled="{Binding P1FoursButtonEnabled}"
-                                Background="White" Command="{Binding FoursCommand}"/>
+                                Background="White" Command="{Binding FoursCommand}" CommandParameter="P1"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Fives" Width="100" Margin="25 0 0 0" Foreground="White"/>
                         <Button Content="{Binding P1ScoreSheet.Fives}" Width="50" Height="20" IsEnabled="{Binding P1FivesButtonEnabled}"
-                                Background="White" Command="{Binding FivesCommand}"/>
+                                Background="White" Command="{Binding FivesCommand}" CommandParameter="P1"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Sixes" Width="100" Margin="25 0 0 0" Foreground="White"/>
                         <Button Content="{Binding P1ScoreSheet.Sixes}" Width="50" Height="20" IsEnabled="{Binding P1SixesButtonEnabled}"
-                                Background="White" Command="{Binding SixesCommand}"/>
+                                Background="White" Command="{Binding SixesCommand}" CommandParameter="P1"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Vertical">
@@ -177,9 +177,9 @@
                 </StackPanel>
             </Border>
 
-            <Border Background="Black" BorderBrush="Black" BorderThickness="1" Width="250" CornerRadius="5" Margin="25 0 0 0" Grid.RowSpan="2" IsEnabled="{Binding PlayerTwosTurn}">
+            <Border Background="Black" BorderBrush="{Binding P2Brush}" BorderThickness="4" Width="250" CornerRadius="5" Margin="25 0 0 0" Grid.RowSpan="2">
                 <StackPanel Orientation="Vertical">
-                    <Label Content="Scoresheet" FontWeight="Bold" HorizontalContentAlignment="Center" 
+                    <Label Content="Player 2 Scoresheet" FontWeight="Bold" HorizontalContentAlignment="Center" 
                            FontSize="16" Foreground="White"/>
                     <Label Content="{Binding P2Name}" FontSize="12" HorizontalContentAlignment="Center" 
                            Foreground="White"/>

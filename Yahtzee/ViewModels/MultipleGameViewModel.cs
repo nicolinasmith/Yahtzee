@@ -41,6 +41,9 @@ namespace Yahtzee.ViewModels
 
         public string PlayersTurn { get; set; }
 
+        public string P1Brush { get; set; } = "Green";
+
+        public string P2Brush { get; set; } = "Black";
 
         #region Bools
         public bool PlayerOnesTurn { get; set; } = true;
@@ -162,7 +165,7 @@ namespace Yahtzee.ViewModels
             P2ScoreSheet = new ScoreSheet();
 
             GuideText = $"Time to roll the dices, {P1Name}!";
-            PlayersTurn = "Player 1's turn";
+            PlayersTurn = $"Player 1's turn";
             NumberOfTries = "0 of 3";
 
             RollDiceCommand = new RelayCommand(x => RollTheDices());
@@ -275,12 +278,16 @@ namespace Yahtzee.ViewModels
                     PlayerOnesTurn = false;
                     PlayerTwosTurn = true;
                     PlayersTurn = "Player 2's turn";
+                    P2Brush = "Green";
+                    P1Brush = "Black";
                     correctPlayer = P2Name;
                     break;
                 case false:
                     PlayerOnesTurn = true;
                     PlayerTwosTurn = false;
                     PlayersTurn = "Player 1's turn";
+                    P1Brush = "Green";
+                    P2Brush = "Black";
                     correctPlayer = P1Name;
                     break;
             }
@@ -295,18 +302,6 @@ namespace Yahtzee.ViewModels
 
         private void CalculateOnesUpToSixes(int number, string stringNum)
         {
-            var correctScoreSheet = P1ScoreSheet;
-
-            switch(PlayerOnesTurn)
-            {
-                case true:
-                    correctScoreSheet = P1ScoreSheet;
-                    break;
-                case false:
-                    correctScoreSheet = P2ScoreSheet;
-                    break;
-            }
-
             int points = 0;
             int diceCount = 0;
 
@@ -324,17 +319,31 @@ namespace Yahtzee.ViewModels
             switch (result)
             {
                 case MessageBoxResult.Yes:
-                    P1SubscoreClick++;
-                    P2SubscoreClick++;
-                    EnableRollDice();
+
+                    var correctScoreSheet = P1ScoreSheet;
+
+                    switch (PlayerOnesTurn)
+                    {
+                        case true:
+                            correctScoreSheet = P1ScoreSheet;
+                            P1SubscoreClick++;
+                            break;
+                        case false:
+                            correctScoreSheet = P2ScoreSheet;
+                            P2SubscoreClick++;
+                            break;
+                    }
+
                     typeof(ScoreSheet).GetProperty(stringNum)?.SetValue(correctScoreSheet, points.ToString());
                     GetType().GetProperty(stringNum + "ButtonEnabled")?.SetValue(this, false);
-                    if (P1SubscoreClick == 6)
+                    if (P1SubscoreClick == 6 || P2SubscoreClick == 6)
                     {
                         CalculateSubscore();
                         CalculateTotalScore();
                     }
+                    EnableRollDice();
                     break;
+
                 case MessageBoxResult.No: return;
             }
         }
@@ -360,7 +369,7 @@ namespace Yahtzee.ViewModels
                 case false:
 
                     int P2Subscore = int.Parse(P2ScoreSheet.Ones) + int.Parse(P2ScoreSheet.Twos) + int.Parse(P2ScoreSheet.Threes) + int.Parse(P2ScoreSheet.Fours) + int.Parse(P2ScoreSheet.Fives) + int.Parse(P2ScoreSheet.Sixes);
-                    P1ScoreSheet.Subscore = P2Subscore.ToString();
+                    P2ScoreSheet.Subscore = P2Subscore.ToString();
 
                     if (P2Subscore > 62)
                     {
@@ -376,21 +385,6 @@ namespace Yahtzee.ViewModels
 
         private void CalculateOnePair()
         {
-            var correctScoreSheet = P1ScoreSheet;
-            bool correctButtonEnabled = P1OnePairButtonEnabled;
-
-            switch(PlayerOnesTurn)
-            {
-                case true:
-                    correctScoreSheet = P1ScoreSheet;
-                    correctButtonEnabled = P1OnePairButtonEnabled;
-                    break;
-                case false:
-                    correctScoreSheet = P2ScoreSheet;
-                    correctButtonEnabled = P2OnePairButtonEnabled;
-                    break;
-            }
-
             int pairOne = 0;
             int pairTwo = 0;
 
@@ -424,11 +418,29 @@ namespace Yahtzee.ViewModels
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+
+                        var correctScoreSheet = P1ScoreSheet;
+                        bool correctButtonEnabled = P1OnePairButtonEnabled;
+
+                        switch (PlayerOnesTurn)
+                        {
+                            case true:
+                                correctScoreSheet = P1ScoreSheet;
+                                correctButtonEnabled = P1OnePairButtonEnabled;
+                                P1TotalScoreClick++;
+                                break;
+                            case false:
+                                correctScoreSheet = P2ScoreSheet;
+                                correctButtonEnabled = P2OnePairButtonEnabled;
+                                P2TotalScoreClick++;
+                                break;
+                        }
+
                         correctScoreSheet.OnePair = highestSum.ToString();
-                        P1TotalScoreClick++;
                         correctButtonEnabled = false;
                         CalculateTotalScore();
                         break;
+
                     case MessageBoxResult.No: return;
                 }
             }
@@ -440,11 +452,29 @@ namespace Yahtzee.ViewModels
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+
+                        var correctScoreSheet = P1ScoreSheet;
+                        bool correctButtonEnabled = P1OnePairButtonEnabled;
+
+                        switch (PlayerOnesTurn)
+                        {
+                            case true:
+                                correctScoreSheet = P1ScoreSheet;
+                                correctButtonEnabled = P1OnePairButtonEnabled;
+                                P1TotalScoreClick++;
+                                break;
+                            case false:
+                                correctScoreSheet = P2ScoreSheet;
+                                correctButtonEnabled = P2OnePairButtonEnabled;
+                                P2TotalScoreClick++;
+                                break;
+                        }
+
                         correctScoreSheet.OnePair = sumPair.ToString();
-                        P1TotalScoreClick++;
                         correctButtonEnabled = false;
                         CalculateTotalScore();
                         break;
+
                     case MessageBoxResult.No: return;
                 }
             }
@@ -455,6 +485,23 @@ namespace Yahtzee.ViewModels
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+                        var correctScoreSheet = P1ScoreSheet;
+                        bool correctButtonEnabled = P1OnePairButtonEnabled;
+
+                        switch (PlayerOnesTurn)
+                        {
+                            case true:
+                                correctScoreSheet = P1ScoreSheet;
+                                correctButtonEnabled = P1OnePairButtonEnabled;
+                                P1TotalScoreClick++;
+                                break;
+                            case false:
+                                correctScoreSheet = P2ScoreSheet;
+                                correctButtonEnabled = P2OnePairButtonEnabled;
+                                P2TotalScoreClick++;
+                                break;
+                        }
+
                         correctScoreSheet.OnePair = 0.ToString();
                         P1TotalScoreClick++;
                         correctButtonEnabled = false;
@@ -467,21 +514,6 @@ namespace Yahtzee.ViewModels
 
         private void CalculateTwoPair()
         {
-            var correctScoreSheet = P1ScoreSheet;
-            bool correctButtonEnabled = P1OnePairButtonEnabled;
-
-            switch (PlayerOnesTurn)
-            {
-                case true:
-                    correctScoreSheet = P1ScoreSheet;
-                    correctButtonEnabled = P1OnePairButtonEnabled;
-                    break;
-                case false:
-                    correctScoreSheet = P2ScoreSheet;
-                    correctButtonEnabled = P2OnePairButtonEnabled;
-                    break;
-            }
-
             int pairOne = 0;
             int pairTwo = 0;
 
@@ -514,8 +546,25 @@ namespace Yahtzee.ViewModels
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+
+                        var correctScoreSheet = P1ScoreSheet;
+                        bool correctButtonEnabled = P1OnePairButtonEnabled;
+
+                        switch (PlayerOnesTurn)
+                        {
+                            case true:
+                                correctScoreSheet = P1ScoreSheet;
+                                correctButtonEnabled = P1OnePairButtonEnabled;
+                                P1TotalScoreClick++;
+                                break;
+                            case false:
+                                correctScoreSheet = P2ScoreSheet;
+                                correctButtonEnabled = P2OnePairButtonEnabled;
+                                P2TotalScoreClick++;
+                                break;
+                        }
+
                         correctScoreSheet.TwoPairs = totalSum.ToString();
-                        P1TotalScoreClick++;
                         correctButtonEnabled = false;
                         CalculateTotalScore();
                         break;
@@ -529,6 +578,23 @@ namespace Yahtzee.ViewModels
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+                        var correctScoreSheet = P1ScoreSheet;
+                        bool correctButtonEnabled = P1OnePairButtonEnabled;
+
+                        switch (PlayerOnesTurn)
+                        {
+                            case true:
+                                correctScoreSheet = P1ScoreSheet;
+                                correctButtonEnabled = P1OnePairButtonEnabled;
+                                P1TotalScoreClick++;
+                                break;
+                            case false:
+                                correctScoreSheet = P2ScoreSheet;
+                                correctButtonEnabled = P2OnePairButtonEnabled;
+                                P2TotalScoreClick++;
+                                break;
+                        }
+
                         correctScoreSheet.TwoPairs = 0.ToString();
                         P1TotalScoreClick++;
                         correctButtonEnabled = false;
@@ -541,20 +607,6 @@ namespace Yahtzee.ViewModels
 
         private void CalculateThreeOfAKind()
         {
-            var correctScoreSheet = P1ScoreSheet;
-            bool correctButtonEnabled = P1OnePairButtonEnabled;
-
-            switch (PlayerOnesTurn)
-            {
-                case true:
-                    correctScoreSheet = P1ScoreSheet;
-                    correctButtonEnabled = P1OnePairButtonEnabled;
-                    break;
-                case false:
-                    correctScoreSheet = P2ScoreSheet;
-                    correctButtonEnabled = P2OnePairButtonEnabled;
-                    break;
-            }
 
             int diceValue = 0;
             int points = 0;
@@ -583,13 +635,29 @@ namespace Yahtzee.ViewModels
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+                        var correctScoreSheet = P1ScoreSheet;
+                        bool correctButtonEnabled = P1OnePairButtonEnabled;
+
+                        switch (PlayerOnesTurn)
+                        {
+                            case true:
+                                correctScoreSheet = P1ScoreSheet;
+                                correctButtonEnabled = P1OnePairButtonEnabled;
+                                P1TotalScoreClick++;
+                                break;
+                            case false:
+                                correctScoreSheet = P2ScoreSheet;
+                                correctButtonEnabled = P2OnePairButtonEnabled;
+                                P2TotalScoreClick++;
+                                break;
+                        }
+
                         correctScoreSheet.ThreeOfAKind = points.ToString();
-                        P1TotalScoreClick++;
                         correctButtonEnabled = false;
                         CalculateTotalScore();
                         break;
-                    case MessageBoxResult.No: return;
 
+                    case MessageBoxResult.No: return;
                 }
             }
             else
@@ -599,11 +667,27 @@ namespace Yahtzee.ViewModels
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+                        var correctScoreSheet = P1ScoreSheet;
+                        bool correctButtonEnabled = P1OnePairButtonEnabled;
+
+                        switch (PlayerOnesTurn)
+                        {
+                            case true:
+                                correctScoreSheet = P1ScoreSheet;
+                                correctButtonEnabled = P1OnePairButtonEnabled;
+                                P1TotalScoreClick++;
+                                break;
+                            case false:
+                                correctScoreSheet = P2ScoreSheet;
+                                correctButtonEnabled = P2OnePairButtonEnabled;
+                                P2TotalScoreClick++;
+                                break;
+                        }
                         correctScoreSheet.ThreeOfAKind = 0.ToString();
-                        P1TotalScoreClick++;
                         correctButtonEnabled = false;
                         CalculateTotalScore();
                         break;
+
                     case MessageBoxResult.No: return;
                 }
             }
@@ -611,21 +695,6 @@ namespace Yahtzee.ViewModels
 
         private void CalculateFourOfAKind()
         {
-            var correctScoreSheet = P1ScoreSheet;
-            bool correctButtonEnabled = P1OnePairButtonEnabled;
-
-            switch (PlayerOnesTurn)
-            {
-                case true:
-                    correctScoreSheet = P1ScoreSheet;
-                    correctButtonEnabled = P1OnePairButtonEnabled;
-                    break;
-                case false:
-                    correctScoreSheet = P2ScoreSheet;
-                    correctButtonEnabled = P2OnePairButtonEnabled;
-                    break;
-            }
-
             int diceValue = 0;
             int points = 0;
             bool isFourOfAKind = false;
@@ -656,8 +725,25 @@ namespace Yahtzee.ViewModels
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+                        var correctScoreSheet = P1ScoreSheet;
+                        bool correctButtonEnabled = P1OnePairButtonEnabled;
+
+                        switch (PlayerOnesTurn)
+                        {
+                            case true:
+                                correctScoreSheet = P1ScoreSheet;
+                                correctButtonEnabled = P1OnePairButtonEnabled;
+                                P1TotalScoreClick++;
+                                break;
+                            case false:
+                                correctScoreSheet = P2ScoreSheet;
+                                correctButtonEnabled = P2OnePairButtonEnabled;
+                                P2TotalScoreClick++;
+                                break;
+                        }
                         correctScoreSheet.FourOfAKind = points.ToString();
                         P1TotalScoreClick++;
+                        P2TotalScoreClick++;
                         correctButtonEnabled = false;
                         CalculateTotalScore();
                         break;
@@ -671,8 +757,23 @@ namespace Yahtzee.ViewModels
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+                        var correctScoreSheet = P1ScoreSheet;
+                        bool correctButtonEnabled = P1OnePairButtonEnabled;
+
+                        switch (PlayerOnesTurn)
+                        {
+                            case true:
+                                correctScoreSheet = P1ScoreSheet;
+                                correctButtonEnabled = P1OnePairButtonEnabled;
+                                P1TotalScoreClick++;
+                                break;
+                            case false:
+                                correctScoreSheet = P2ScoreSheet;
+                                correctButtonEnabled = P2OnePairButtonEnabled;
+                                P2TotalScoreClick++;
+                                break;
+                        }
                         correctScoreSheet.FourOfAKind = 0.ToString();
-                        P1TotalScoreClick++;
                         correctButtonEnabled = false;
                         CalculateTotalScore();
                         break;
@@ -683,21 +784,6 @@ namespace Yahtzee.ViewModels
 
         private void CalculateFullHouse()
         {
-            var correctScoreSheet = P1ScoreSheet;
-            bool correctButtonEnabled = P1OnePairButtonEnabled;
-
-            switch (PlayerOnesTurn)
-            {
-                case true:
-                    correctScoreSheet = P1ScoreSheet;
-                    correctButtonEnabled = P1OnePairButtonEnabled;
-                    break;
-                case false:
-                    correctScoreSheet = P2ScoreSheet;
-                    correctButtonEnabled = P2OnePairButtonEnabled;
-                    break;
-            }
-
             int threesValue = 0;
             int pairValue = 0;
 
@@ -724,11 +810,27 @@ namespace Yahtzee.ViewModels
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+                        var correctScoreSheet = P1ScoreSheet;
+                        bool correctButtonEnabled = P1OnePairButtonEnabled;
+
+                        switch (PlayerOnesTurn)
+                        {
+                            case true:
+                                correctScoreSheet = P1ScoreSheet;
+                                correctButtonEnabled = P1OnePairButtonEnabled;
+                                P1TotalScoreClick++;
+                                break;
+                            case false:
+                                correctScoreSheet = P2ScoreSheet;
+                                correctButtonEnabled = P2OnePairButtonEnabled;
+                                P2TotalScoreClick++;
+                                break;
+                        }
                         correctScoreSheet.FullHouse = totalSum.ToString();
-                        P1TotalScoreClick++;
                         correctButtonEnabled = false;
                         CalculateTotalScore();
                         break;
+
                     case MessageBoxResult.No: return;
                 }
             }
@@ -739,11 +841,27 @@ namespace Yahtzee.ViewModels
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+                        var correctScoreSheet = P1ScoreSheet;
+                        bool correctButtonEnabled = P1OnePairButtonEnabled;
+
+                        switch (PlayerOnesTurn)
+                        {
+                            case true:
+                                correctScoreSheet = P1ScoreSheet;
+                                correctButtonEnabled = P1OnePairButtonEnabled;
+                                P1TotalScoreClick++;
+                                break;
+                            case false:
+                                correctScoreSheet = P2ScoreSheet;
+                                correctButtonEnabled = P2OnePairButtonEnabled;
+                                P2TotalScoreClick++;
+                                break;
+                        }
                         correctScoreSheet.FullHouse = 0.ToString();
-                        P1TotalScoreClick++;
                         correctButtonEnabled = false;
                         CalculateTotalScore();
                         break;
+
                     case MessageBoxResult.No: return;
                 }
             }
@@ -751,21 +869,6 @@ namespace Yahtzee.ViewModels
 
         private void CalculateSmallStraight()
         {
-            var correctScoreSheet = P1ScoreSheet;
-            bool correctButtonEnabled = P1OnePairButtonEnabled;
-
-            switch (PlayerOnesTurn)
-            {
-                case true:
-                    correctScoreSheet = P1ScoreSheet;
-                    correctButtonEnabled = P1OnePairButtonEnabled;
-                    break;
-                case false:
-                    correctScoreSheet = P2ScoreSheet;
-                    correctButtonEnabled = P2OnePairButtonEnabled;
-                    break;
-            }
-
             int[] smallStraightArray = { 1, 2, 3, 4, 5 };
             int[] diceArray = new int[5];
 
@@ -783,11 +886,27 @@ namespace Yahtzee.ViewModels
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+                        var correctScoreSheet = P1ScoreSheet;
+                        bool correctButtonEnabled = P1OnePairButtonEnabled;
+
+                        switch (PlayerOnesTurn)
+                        {
+                            case true:
+                                correctScoreSheet = P1ScoreSheet;
+                                correctButtonEnabled = P1OnePairButtonEnabled;
+                                P1TotalScoreClick++;
+                                break;
+                            case false:
+                                correctScoreSheet = P2ScoreSheet;
+                                correctButtonEnabled = P2OnePairButtonEnabled;
+                                P2TotalScoreClick++;
+                                break;
+                        }
                         correctScoreSheet.SmallStraight = 15.ToString();
-                        P1TotalScoreClick++;
                         correctButtonEnabled = false;
                         CalculateTotalScore();
                         break;
+
                     case MessageBoxResult.No: return;
                 }
             }
@@ -798,11 +917,27 @@ namespace Yahtzee.ViewModels
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+                        var correctScoreSheet = P1ScoreSheet;
+                        bool correctButtonEnabled = P1OnePairButtonEnabled;
+
+                        switch (PlayerOnesTurn)
+                        {
+                            case true:
+                                correctScoreSheet = P1ScoreSheet;
+                                correctButtonEnabled = P1OnePairButtonEnabled;
+                                P1TotalScoreClick++;
+                                break;
+                            case false:
+                                correctScoreSheet = P2ScoreSheet;
+                                correctButtonEnabled = P2OnePairButtonEnabled;
+                                P2TotalScoreClick++;
+                                break;
+                        }
                         correctScoreSheet.SmallStraight = 0.ToString();
-                        P1TotalScoreClick++;
                         correctButtonEnabled = false;
                         CalculateTotalScore();
                         break;
+
                     case MessageBoxResult.No: return;
                 }
             }
@@ -810,21 +945,6 @@ namespace Yahtzee.ViewModels
 
         private void CalculateLargeStraight()
         {
-            var correctScoreSheet = P1ScoreSheet;
-            bool correctButtonEnabled = P1OnePairButtonEnabled;
-
-            switch (PlayerOnesTurn)
-            {
-                case true:
-                    correctScoreSheet = P1ScoreSheet;
-                    correctButtonEnabled = P1OnePairButtonEnabled;
-                    break;
-                case false:
-                    correctScoreSheet = P2ScoreSheet;
-                    correctButtonEnabled = P2OnePairButtonEnabled;
-                    break;
-            }
-
             int[] largeStraightArray = { 2, 3, 4, 5, 6 };
             int[] diceArray = new int[5];
 
@@ -842,8 +962,23 @@ namespace Yahtzee.ViewModels
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+                        var correctScoreSheet = P1ScoreSheet;
+                        bool correctButtonEnabled = P1OnePairButtonEnabled;
+
+                        switch (PlayerOnesTurn)
+                        {
+                            case true:
+                                correctScoreSheet = P1ScoreSheet;
+                                correctButtonEnabled = P1OnePairButtonEnabled;
+                                P1TotalScoreClick++;
+                                break;
+                            case false:
+                                correctScoreSheet = P2ScoreSheet;
+                                correctButtonEnabled = P2OnePairButtonEnabled;
+                                P2TotalScoreClick++;
+                                break;
+                        }
                         correctScoreSheet.LargeStraight = 20.ToString();
-                        P1TotalScoreClick++;
                         correctButtonEnabled = false;
                         CalculateTotalScore();
                         break;
@@ -857,8 +992,23 @@ namespace Yahtzee.ViewModels
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+                        var correctScoreSheet = P1ScoreSheet;
+                        bool correctButtonEnabled = P1OnePairButtonEnabled;
+
+                        switch (PlayerOnesTurn)
+                        {
+                            case true:
+                                correctScoreSheet = P1ScoreSheet;
+                                correctButtonEnabled = P1OnePairButtonEnabled;
+                                P1TotalScoreClick++;
+                                break;
+                            case false:
+                                correctScoreSheet = P2ScoreSheet;
+                                correctButtonEnabled = P2OnePairButtonEnabled;
+                                P2TotalScoreClick++;
+                                break;
+                        }
                         correctScoreSheet.LargeStraight = 0.ToString();
-                        P1TotalScoreClick++;
                         correctButtonEnabled = false;
                         CalculateTotalScore();
                         break;
@@ -870,21 +1020,6 @@ namespace Yahtzee.ViewModels
 
         private void CalculateYatzy()
         {
-            var correctScoreSheet = P1ScoreSheet;
-            bool correctButtonEnabled = P1OnePairButtonEnabled;
-
-            switch (PlayerOnesTurn)
-            {
-                case true:
-                    correctScoreSheet = P1ScoreSheet;
-                    correctButtonEnabled = P1OnePairButtonEnabled;
-                    break;
-                case false:
-                    correctScoreSheet = P2ScoreSheet;
-                    correctButtonEnabled = P2OnePairButtonEnabled;
-                    break;
-            }
-
             int value = Dices[0].Value;
             int count = 0;
 
@@ -903,8 +1038,23 @@ namespace Yahtzee.ViewModels
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+                        var correctScoreSheet = P1ScoreSheet;
+                        bool correctButtonEnabled = P1OnePairButtonEnabled;
+
+                        switch (PlayerOnesTurn)
+                        {
+                            case true:
+                                correctScoreSheet = P1ScoreSheet;
+                                correctButtonEnabled = P1OnePairButtonEnabled;
+                                P1TotalScoreClick++;
+                                break;
+                            case false:
+                                correctScoreSheet = P2ScoreSheet;
+                                correctButtonEnabled = P2OnePairButtonEnabled;
+                                P2TotalScoreClick++;
+                                break;
+                        }
                         correctScoreSheet.Yatzy = 50.ToString();
-                        P1TotalScoreClick++;
                         correctButtonEnabled = false;
                         CalculateTotalScore();
                         break;
@@ -918,11 +1068,27 @@ namespace Yahtzee.ViewModels
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+                        var correctScoreSheet = P1ScoreSheet;
+                        bool correctButtonEnabled = P1OnePairButtonEnabled;
+
+                        switch (PlayerOnesTurn)
+                        {
+                            case true:
+                                correctScoreSheet = P1ScoreSheet;
+                                correctButtonEnabled = P1OnePairButtonEnabled;
+                                P1TotalScoreClick++;
+                                break;
+                            case false:
+                                correctScoreSheet = P2ScoreSheet;
+                                correctButtonEnabled = P2OnePairButtonEnabled;
+                                P2TotalScoreClick++;
+                                break;
+                        }
                         correctScoreSheet.Yatzy = 0.ToString();
-                        P1TotalScoreClick++;
                         correctButtonEnabled = false;
                         CalculateTotalScore();
                         break;
+
                     case MessageBoxResult.No: return;
                 }
             }
@@ -930,21 +1096,6 @@ namespace Yahtzee.ViewModels
 
         private void CalculateChance()
         {
-            var correctScoreSheet = P1ScoreSheet;
-            bool correctButtonEnabled = P1OnePairButtonEnabled;
-
-            switch (PlayerOnesTurn)
-            {
-                case true:
-                    correctScoreSheet = P1ScoreSheet;
-                    correctButtonEnabled = P1OnePairButtonEnabled;
-                    break;
-                case false:
-                    correctScoreSheet = P2ScoreSheet;
-                    correctButtonEnabled = P2OnePairButtonEnabled;
-                    break;
-            }
-
             int points = 0;
 
             foreach (var dice in Dices)
@@ -957,8 +1108,23 @@ namespace Yahtzee.ViewModels
             switch (result)
             {
                 case MessageBoxResult.Yes:
+                    var correctScoreSheet = P1ScoreSheet;
+                    bool correctButtonEnabled = P1OnePairButtonEnabled;
+
+                    switch (PlayerOnesTurn)
+                    {
+                        case true:
+                            correctScoreSheet = P1ScoreSheet;
+                            correctButtonEnabled = P1OnePairButtonEnabled;
+                            P1TotalScoreClick++;
+                            break;
+                        case false:
+                            correctScoreSheet = P2ScoreSheet;
+                            correctButtonEnabled = P2OnePairButtonEnabled;
+                            P2TotalScoreClick++;
+                            break;
+                    }
                     correctScoreSheet.Chance = points.ToString();
-                    P1TotalScoreClick++;
                     correctButtonEnabled = false;
                     CalculateTotalScore();
                     break;
